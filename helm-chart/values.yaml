@@ -1,0 +1,37 @@
+gateway:
+  image:
+    repository: "mathiasbrl/exam-gitlab:gateway"
+    tag: "latest"
+  command: "sh -c 'uvicorn main:app --reload --host 0.0.0.0'"
+  envFile: "./gateway/.env"
+  ports:
+    - targetPort: 8000
+      port: 8001
+  dependsOn:
+    - service: users
+      port: 8000
+    - service: orders
+      port: 8000
+  volumes:
+    - hostPath: "./gateway"
+      mountPath: "/app"
+
+users:
+  image:
+    repository: "mathiasbrl/exam-gitlab:users"
+    tag: "latest"
+  command: "sh -c 'uvicorn main:app --reload --host 0.0.0.0'"
+  envFile: "./users/.env"
+  volumes:
+    - hostPath: "./users"
+      mountPath: "/app"
+
+orders:
+  image:
+    repository: "mathiasbrl/exam-gitlab:orders"
+    tag: "latest"
+  command: "sh -c 'uvicorn main:app --reload --host 0.0.0.0'"
+  envFile: "./orders/.env"
+  volumes:
+    - hostPath: "./orders"
+      mountPath: "/app"

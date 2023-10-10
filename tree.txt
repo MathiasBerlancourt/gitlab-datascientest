@@ -1,0 +1,21 @@
+gitlab_devops_exams/
+├── docker-compose.yml
+├── gateway/
+│   ├── Dockerfile
+│   ├── .env
+│   └── ... (autres fichiers de code source et de configuration)
+├── users/
+│   ├── Dockerfile
+│   ├── .env
+│   └── ... (autres fichiers de code source et de configuration)
+├── orders/
+│   ├── Dockerfile
+│   ├── .env
+│   └── ... (autres fichiers de code source et de configuration)
+└── helm-chart/
+    ├── Chart.yaml
+    ├── values.yaml
+    └── templates/
+        ├── gateway-deployment.yaml
+        ├── users-deployment.yaml
+        └── orders-deployment.yaml
