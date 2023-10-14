@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+        - name: gateway
+          image: mathiasbrl/exam-gitlab:gateway
+          command: ["sh", "-c", "uvicorn main:app --reload --host 0.0.0.0"]
+          ports:
+            - containerPort: 8000
+          env:
+            - name: ENV_VARIABLE
+              valueFrom:
+                secretKeyRef:
+                  name: gateway-secret
+                  key: env_variable
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orders-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orders
+  template:
+    metadata:
+      labels:
+        app: orders
+    spec:
+      containers:
+        - name: orders
+          image: mathiasbrl/exam-gitlab:orders
+          command: ["sh", "-c", "uvicorn main:app --reload --host 0.0.0.0"]
+          ports:
+            - containerPort: 8000
+          env:
+            - name: ENV_VARIABLE
+              valueFrom:
+                secretKeyRef:
+                  name: orders-secret
+                  key: env_variable
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users
+  template:
+    metadata:
+      labels:
+        app: users
+    spec:
+      containers:
+        - name: users
+          image: mathiasbrl/exam-gitlab:users
+          command: ["sh", "-c", "uvicorn main:app --reload --host 0.0.0.0"]
+          ports:
+            - containerPort: 8000
+          env:
+            - name: ENV_VARIABLE
+              valueFrom:
+                secretKeyRef:
+                  name: users-secret
+                  key: env_variable
